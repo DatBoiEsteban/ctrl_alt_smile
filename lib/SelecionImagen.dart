@@ -1,7 +1,12 @@
 import 'dart:io';
+
 import 'consts.dart';
 import 'package:flutter/material.dart';
+import 'package:path/path.dart';
+import 'package:photofilters/photofilters.dart';
+import 'package:image/image.dart' as imageLib;
 import 'package:image_picker_modern/image_picker_modern.dart';
+import 'package:flutter_speed_dial/flutter_speed_dial.dart';
 
 class VistaImagen extends StatefulWidget {
   VistaImagen({Key key, this.title}) : super(key: key);
@@ -12,21 +17,81 @@ class VistaImagen extends StatefulWidget {
 }
 
 class _VistaImagenState extends State<VistaImagen> {
-  File _image;
+  Widget _carruselBotones() {
+    return SpeedDial(
+      animatedIcon: AnimatedIcons.menu_close,
+      animatedIconTheme: IconThemeData(size: 22),
+      backgroundColor: COLOR_BOTON_MENU,
+      visible: true,
+      curve: Curves.bounceIn,
+      children: [
+        SpeedDialChild(
+            child: Icon(Icons.add_a_photo),
+            backgroundColor: COLOR_BOTON_CAMARA,
+            onTap: getFromCamera,
+            label: 'Tomar Foto',
+            labelStyle: TextStyle(
+                fontWeight: FontWeight.w500,
+                color: Colors.white,
+                fontSize: 16.0),
+            labelBackgroundColor: COLOR_BOTON_CAMARA),
+        SpeedDialChild(
+            child: Icon(Icons.crop_original),
+            backgroundColor: COLOR_BOTON_GALERIA,
+            onTap: getFromGallery,
+            label: 'Selecionar de Galeria',
+            labelStyle: TextStyle(
+                fontWeight: FontWeight.w500,
+                color: Colors.white,
+                fontSize: 16.0),
+            labelBackgroundColor: COLOR_BOTON_GALERIA)
+      ],
+    );
+  }
+
+  imageLib.Image _image;
+  File imageFile;
+  String fileName;
+  List<Filter> filters = presetFiltersList;
 
   Future getFromCamera() async {
-    var image = await ImagePicker.pickImage(source: ImageSource.camera);
-
+    imageFile = await ImagePicker.pickImage(source: ImageSource.camera);
+    fileName = basename(imageFile.path);
+    var image = imageLib.decodeImage(imageFile.readAsBytesSync());
+    image = imageLib.copyResize(image, width: 600);
     setState(() {
       _image = image;
     });
   }
 
   Future getFromGallery() async {
-    var image = await ImagePicker.pickImage(source: ImageSource.gallery);
+    imageFile = await ImagePicker.pickImage(source: ImageSource.gallery);
+    fileName = basename(imageFile.path);
+    var image = imageLib.decodeImage(imageFile.readAsBytesSync());
+    image = imageLib.copyResize(image, width: 600);
     setState(() {
       _image = image;
     });
+  }
+
+  Future applyFilter(BuildContext context) async {
+    Map imagefile = await Navigator.push(
+      context,
+      new MaterialPageRoute(
+          builder: (context) => new PhotoFilterSelector(
+                image: _image,
+                filters: filters,
+                filename: fileName,
+                title: Text(TITULO),
+              )),
+    );
+    var image = imageLib.decodeImage(imageFile.readAsBytesSync());
+    if (imagefile != null) {
+      setState(() {
+        imageFile = imagefile['image_filtered'];
+        _image = image;
+      });
+    }
   }
 
   Widget build(BuildContext context) {
@@ -34,14 +99,35 @@ class _VistaImagenState extends State<VistaImagen> {
       appBar: AppBar(
         title: Text(widget.title),
       ),
-      body: Center(
-        child: _image == null ? Text(MENSAJE_NO_IMAGEN) : Image.file(_image),
-      ),
-      floatingActionButton: FloatingActionButton(
-        onPressed: getFromCamera,
-        tooltip: 'Tomar Foto',
-        child: Icon(Icons.add_a_photo),
-      ),
+      body: Column(children: [
+        Center(
+          child:
+              _image == null ? Text(MENSAJE_NO_IMAGEN) : Image.file(imageFile),
+        ),
+        RaisedButton(
+          elevation: 1,
+          highlightElevation: 1,
+          disabledElevation: 1,
+          clipBehavior: Clip.none,
+          onPressed: () {
+            if (_image != null) {
+              applyFilter(context);
+            }
+          },
+          child: Text("Aplicar Filtro"),
+        )
+      ]),
+      floatingActionButton: _carruselBotones(),
     );
   }
 }
+/*
+
+PhotoFilterSelector(
+            image: imageLib.decodeImage(_image.readAsBytesSync()),
+            filters: filters,
+            filename: fileName,
+            title: Text(TITULO),
+          );
+
+*/
