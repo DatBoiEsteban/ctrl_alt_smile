@@ -85,7 +85,9 @@ class _VistaImagenState extends State<VistaImagen> {
                 title: Text(TITULO),
               )),
     );
+
     var image = imageLib.decodeImage(imageFile.readAsBytesSync());
+
     if (imagefile != null) {
       setState(() {
         imageFile = imagefile['image_filtered'];
@@ -121,13 +123,3 @@ class _VistaImagenState extends State<VistaImagen> {
     );
   }
 }
-/*
-
-PhotoFilterSelector(
-            image: imageLib.decodeImage(_image.readAsBytesSync()),
-            filters: filters,
-            filename: fileName,
-            title: Text(TITULO),
-          );
-
-*/
