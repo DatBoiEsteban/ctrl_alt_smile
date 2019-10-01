@@ -8,6 +8,8 @@ import 'package:image/image.dart' as imageLib;
 import 'package:image_picker_modern/image_picker_modern.dart';
 import 'package:flutter_speed_dial/flutter_speed_dial.dart';
 
+import 'filters.dart';
+
 class VistaImagen extends StatefulWidget {
   VistaImagen({Key key, this.title}) : super(key: key);
 
@@ -52,7 +54,7 @@ class _VistaImagenState extends State<VistaImagen> {
   imageLib.Image _image;
   File imageFile;
   String fileName;
-  List<Filter> filters = presetFiltersList;
+  List<Filter> filters = nuestraListaDeFiltros;
 
   Future getFromCamera() async {
     imageFile = await ImagePicker.pickImage(source: ImageSource.camera);
