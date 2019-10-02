@@ -5,37 +5,35 @@ import 'package:photofilters/filters/subfilters.dart';
 
 // Vamos a crear un filtro nuevo!!!
 
-class MiFiltroPersonalizado extends ColorFilter{ //se declaró un nuevo filtro para el app
+class MiFiltroPersonalizado extends ColorFilter {
+  //se declaró un nuevo filtro para el app
 
 //Vamos a configurar el filtro
 
   //var nivelDeSaturacion = 50; // se puede escoger un nuevo valor de saturacion, edite el numero.
 
-
 //se pueden editar los valores de RBG (rojo, verde y azul) y una escala.
 
   var nivelDeRojo = 255; //edite y juegue con los valores.
 
-  var nivelDeVerde = 50; //edite y juegue con los valores. 
+  var nivelDeVerde = 50; //edite y juegue con los valores.
 
   var nivelDeAzul = 120; //edite y juegue con los valores.
 
-  var nivelDeEscala = 0.2; //edite y juegue con los valores. 
+  var nivelDeEscala = 0.2; //edite y juegue con los valores.
 
+  var nivelDeConstrate =
+      0.0; //se puede escoger un nuevo valor de contraste, edite el numero.
 
-  var nivelDeConstrate = 0.0; //se puede escoger un nuevo valor de contraste, edite el numero.
-  
+  MiFiltroPersonalizado() : super(name: "Mi Primer Filtro") {
+    //Se le puede editar el nombre de su nuevo filtro, edite el texto entre las comillas.
 
-  MiFiltroPersonalizado() : super(name: "Mi Primer Filtro"){ //Se le puede editar el nombre de su nuevo filtro, edite el texto entre las comillas.
-    
-    subFilters.add(new RGBOverlaySubFilter(nivelDeRojo, nivelDeVerde, nivelDeAzul, nivelDeEscala)); 
-    //subFilters.add(new SaturationSubFilter(nivelDeSaturacion)); 
-    subFilters.add(new ContrastSubFilter(nivelDeConstrate)); 
-
-  } 
-
+    subFilters.add(new RGBOverlaySubFilter(
+        nivelDeRojo, nivelDeVerde, nivelDeAzul, nivelDeEscala));
+    //subFilters.add(new SaturationSubFilter(nivelDeSaturacion));
+    subFilters.add(new ContrastSubFilter(nivelDeConstrate));
+  }
 }
-
 
 //Aqui hay algunos ejemplo de filtros que se pueden hacer!!
 
@@ -102,7 +100,6 @@ class XProIIFilter extends ColorFilter {
   }
 }
 
-
 List<Filter> nuestraListaDeFiltros = [
   NoFilter(),
   MiFiltroPersonalizado(),
@@ -115,5 +112,15 @@ List<Filter> nuestraListaDeFiltros = [
   XProIIFilter()
 ];
 
-
-
+/*
+ContrastSubFilter(0) : num
+BrightnessSubFilter(0) : num
+SaturationSubFilter(0) : num
+SepiaSubFilter(0) : num
+GrayScaleSubFilter()
+InvertSubFilter()
+HueRotationSubFilter(0) : Degrees
+AddictiveColorSubFilter(0,0,0) : R,G,B
+RGBScaleSubFilter(0,0,0) : R,G,B
+RGBOverlaySubFilter(0,0,0,0) : R,G,B,Scale
+*/
