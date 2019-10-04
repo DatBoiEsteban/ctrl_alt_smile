@@ -8,7 +8,6 @@ import 'package:photofilters/photofilters.dart';
 import 'package:image/image.dart' as imageLib;
 import 'package:image_picker_modern/image_picker_modern.dart';
 import 'package:flutter_speed_dial/flutter_speed_dial.dart';
-import 'package:esys_flutter_share/esys_flutter_share.dart';
 
 import 'filters.dart';
 
@@ -48,17 +47,7 @@ class _VistaImagenState extends State<VistaImagen> {
                 fontWeight: FontWeight.w500,
                 color: Colors.white,
                 fontSize: 16.0),
-            labelBackgroundColor: COLOR_BOTON_GALERIA),
-        SpeedDialChild(
-            child: Icon(Icons.share),
-            backgroundColor: COLOR_PRIMARIO,
-            onTap: shareImage,
-            label: 'Compartir imagen',
-            labelStyle: TextStyle(
-                fontWeight: FontWeight.w500,
-                color: Colors.white,
-                fontSize: 16.0),
-            labelBackgroundColor: COLOR_PRIMARIO)
+            labelBackgroundColor: COLOR_BOTON_GALERIA)
       ],
     );
   }
@@ -68,14 +57,6 @@ class _VistaImagenState extends State<VistaImagen> {
   String fileName;
   List<Filter> filters = nuestraListaDeFiltros;
 
-  Future shareImage() async {
-    if (_image != null) {
-      Uint8List imgdata = _image.getBytes();
-      List<int> img = new List();
-      imgdata.forEach(((elemento) => img.add(elemento)));
-      Share.file("imagen.png", "imagen.png", img, "image/png");
-    }
-  }
 
   Future getFromCamera() async {
     imageFile = await ImagePicker.pickImage(source: ImageSource.camera);

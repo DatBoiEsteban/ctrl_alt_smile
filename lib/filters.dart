@@ -20,10 +20,11 @@ class MiFiltroPersonalizado extends ColorFilter {
 
   var nivelDeAzul = 120; //edite y juegue con los valores.
 
-  var nivelDeEscala = 0.2; //edite y juegue con los valores.
+  var nivelDeConstrate = 0.0; //se puede escoger un nuevo valor de contraste, edite el numero.
 
-  var nivelDeConstrate =
-      0.0; //se puede escoger un nuevo valor de contraste, edite el numero.
+//-----------------------------------------------
+  var nivelDeEscala = 0.2; //No tocar!!
+  //-----------------------------------------------
 
   MiFiltroPersonalizado() : super(name: "Mi Primer Filtro") {
     //Se le puede editar el nombre de su nuevo filtro, edite el texto entre las comillas.
@@ -34,6 +35,14 @@ class MiFiltroPersonalizado extends ColorFilter {
     subFilters.add(new ContrastSubFilter(nivelDeConstrate));
   }
 }
+
+
+
+
+
+
+
+
 
 //Aqui hay algunos ejemplo de filtros que se pueden hacer!!
 
